@@ -1,0 +1,51 @@
+{
+  "log": {
+    "access": "/var/log/Mysql/access.log",
+    "error": "/var/log/Mysql/error.log",
+    "loglevel": "none"
+  },
+  "inbounds": [
+    {
+      "port": 12345,
+      "protocol": "vless",
+      "settings": {
+        "clients": [
+          {
+            "id": "60ca58e9-003e-4c01-98de-c2223ae49153",
+            "level": 0
+          }
+        ],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+        "path": "/raypath"
+        }
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "settings": {},
+      "tag": "direct"
+    },
+    {
+      "protocol": "blackhole",
+      "settings": {},
+      "tag": "blocked"
+    }
+  ],
+  "routing": {
+    "rules": [
+      {
+        "type": "field",
+        "ip": [
+          "geoip:private"
+        ],
+        "outboundTag": "blocked"
+      }
+    ]
+  }  
+}
